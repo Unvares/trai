@@ -1,3 +1,5 @@
+import { defineNuxtConfig } from "nuxt/config";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: false },
@@ -6,5 +8,8 @@ export default defineNuxtConfig({
   ],
   typescript: {
     typeCheck: true
+  },
+  runtimeConfig: {
+    apiKey: process.env.API_KEY
   }
-})
+});
