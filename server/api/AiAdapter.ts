@@ -1,5 +1,5 @@
 import OpenAI from 'openai'
-import {ChatHistory, Message} from '../../stores/types';
+import type {ChatHistory, Message} from '../../stores/types';
 
 const client = new OpenAI({apiKey: process.env.API_KEY});
 
@@ -14,7 +14,7 @@ async function fetchResponse(requestMessages: ChatHistory): Promise<Message> {
         const aiMessage = response.choices[0].message;
         return {
             role: aiMessage.role,
-            content: aiMessage.content
+            content: aiMessage.content || "AI could not send response.",
         };
     } else {
         throw new Error('AI could not send response.');

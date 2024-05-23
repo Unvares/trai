@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia';
-import type { ChatMessage } from './types';  // Assuming you moved the ChatMessage type to a separate types.ts file
+import type { Message } from './types';  // Assuming you moved the ChatMessage type to a separate types.ts file
 
 export const useChatbotStore = defineStore('chatbot', {
   state: () => ({
-    messages: [] as ChatMessage[],  // Define messages as an array of ChatMessage
+    messages: [] as Message[],  // Define messages as an array of ChatMessage
   }),
   actions: {
-    addMessage(message: ChatMessage) {
+    addMessage(message: Message) {
       this.messages.push(message);
     },
   },

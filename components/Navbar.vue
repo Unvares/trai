@@ -5,9 +5,9 @@
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <div class="menu">
-      <v-btn text @click="scrollToSection('chatbot')">Chatbot</v-btn>
-      <v-btn text @click="scrollToSection('instructions')">Instructions</v-btn>
-      <v-btn text @click="scrollToSection('about')">About Us</v-btn>
+      <v-btn @click="scrollToSection('chatbot')">Chatbot</v-btn>
+      <v-btn @click="scrollToSection('instructions')">Instructions</v-btn>
+      <v-btn @click="scrollToSection('about')">About Us</v-btn>
     </div>
   </v-app-bar>
 </template>

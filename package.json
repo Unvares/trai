@@ -10,11 +10,13 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxtjs/vuetify": "^1.12.3",
     "@pinia/nuxt": "^0.5.1",
     "axios": "^1.7.0",
     "nuxt": "^3.11.2",
     "openai": "^4.0.0",
     "pinia": "^2.1.7",
+    "vite-plugin-vuetify": "^2.0.3",
     "vue": "^3.4.27",
     "vue-router": "^4.3.2",
     "vuetify": "^3.6.7"
