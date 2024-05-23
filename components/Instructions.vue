@@ -1,5 +1,4 @@
 <template>
-  <v-app>
     <v-container class="instructions-section" id="instructions">
       <v-row>
         <v-col cols="12" md="6" class="instructions-images">
@@ -13,7 +12,6 @@
         </v-col>
       </v-row>
     </v-container>
-  </v-app>
 </template>
 
 <style scoped lang="scss">
@@ -22,6 +20,8 @@
   align-items: center;
   justify-content: center;
   margin: 20px 0;
+  background: #D2B48C;
+  border-radius: 10px;
   
   .instructions-images {
     display: flex;

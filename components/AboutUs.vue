@@ -1,5 +1,4 @@
 <template>
-  <v-app>
     <v-container class="about-section" id="about">
       <img src="/assets/images/about.png" alt="About Us Image">
       <div class="text">
@@ -7,13 +6,14 @@
         <p>We are dedicated to promoting smart recycling habits.</p>
       </div>
     </v-container>
-  </v-app>
   </template>
   
   <style scoped lang="scss">
   .about-section {
     text-align: center;
     margin: 20px 0;
+    background: #8B4513;
+    border-radius: 10px;
     
     img {
       width: 200px;

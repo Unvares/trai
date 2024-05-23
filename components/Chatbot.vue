@@ -1,6 +1,5 @@
 <template>
   <v-container class="chatbot-section" id="chatbot">
-    <div class="background-image"></div>
     <v-card class="chatbot-frame">
       <v-card-text class="chatbot">
         <v-list>
@@ -67,6 +66,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .chatbot-section {
+  margin-top: 150px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -74,21 +74,11 @@ onMounted(() => {
   height: calc(100vh - 100px); /* Adjusted height */
   position: relative;
   overflow: visible;
-  padding-top: 0px; /* Adjusted padding-top to match navbar height */
   box-sizing: border-box; /* Include padding and border in width and height */
+  background:  #87CEEB;
+  border-radius: 10px;
 }
 
-.background-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('/assets/images/background.jpg');
-  background-size: cover;
-  background-position: center;
-  z-index: -1;
-}
 
 .chatbot-frame {
   width: 70%;

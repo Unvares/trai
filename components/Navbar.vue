@@ -1,7 +1,6 @@
 <template>
   <div class="navbar-container">
-    <v-app>
-      <v-app-bar class="navbar" :elevation="0"> <!-- Set elevation to 0 to match your design -->
+      <v-app-bar class="navbar"> <!-- Set elevation to 0 to match your design -->
         <v-app-bar-title> TRAI<!-- Place the title -->
           <div class="logo-container">
             <img src="/assets/images/logo.png" alt="Logo" class="logo">
@@ -14,7 +13,6 @@
         </div>
         <!-- Optionally, you can add action items and overflow menu here -->
       </v-app-bar>
-    </v-app>
   </div>
 </template>
 
@@ -30,7 +28,9 @@ const scrollToSection = (id: string) => {
 </script>
 
 <style scoped lang="scss">
+
 .navbar-container {
+  background: #6B8E23;
   position: relative;
   width: 100%;
   top: 0;
@@ -42,8 +42,6 @@ const scrollToSection = (id: string) => {
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  background-color: #333;
-  color: white;
 }
 
 .logo-container {
@@ -61,4 +59,5 @@ const scrollToSection = (id: string) => {
   gap: 10px;
   padding-right: 20px;
 }
+
 </style>
