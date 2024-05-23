@@ -1,10 +1,12 @@
 import OpenAI from 'openai'
-import type {ChatHistory, Message} from '../../stores/types';
+import type {Message} from '../../stores/types';
 
-const client = new OpenAI({apiKey: process.env.API_KEY});
+const client = new OpenAI({
+    apiKey: process.env.API_KEY
+});
 
 
-async function fetchResponse(requestMessages: ChatHistory): Promise<Message> {
+export async function fetchResponse(requestMessages: Message[]): Promise<Message> {
     const response = await client.chat.completions.create({
         model: "gpt-3.5-turbo-1106",
         messages: requestMessages
