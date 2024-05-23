@@ -1,7 +1,9 @@
 <template>
-  <v-container class="contact-us" id="contact">
-    <p>Contact us at: <a href="mailto:email@example.com">email@example.com</a></p>
-  </v-container>
+  <v-app>
+    <v-container class="contact-us" id="contact">
+      <p>Contact us at: <a href="mailto:email@example.com">email@example.com</a></p>
+    </v-container>
+  </v-app>
 </template>
 
 <style scoped lang="scss">

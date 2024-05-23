@@ -1,7 +1,7 @@
 type ChatHistory = [Message];
 
 type Message = {
-    role: "function" | "system" | "user" | "assistant" ;
+    role: "system" | "user" | "assistant" ;
     content: string;
 }
 

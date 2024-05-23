@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app dense class="navbar">
+  <v-app class="navbar">
     <v-toolbar-title class="logo-container">
       <img src="/assets/images/logo.png" alt="Logo" class="logo">
     </v-toolbar-title>
@@ -9,7 +9,7 @@
       <v-btn @click="scrollToSection('instructions')">Instructions</v-btn>
       <v-btn @click="scrollToSection('about')">About Us</v-btn>
     </div>
-  </v-app-bar>
+  </v-app>
 </template>
 
 <script setup lang="ts">

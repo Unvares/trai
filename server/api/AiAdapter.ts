@@ -13,7 +13,7 @@ async function fetchResponse(requestMessages: ChatHistory): Promise<Message> {
     if (response.choices) {
         const aiMessage = response.choices[0].message;
         return {
-            role: aiMessage.role,
+            role: 'system',
             content: aiMessage.content || "AI could not send response.",
         };
     } else {
