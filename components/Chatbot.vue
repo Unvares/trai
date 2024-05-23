@@ -1,36 +1,34 @@
 <template>
-  <v-app>
-    <v-container class="chatbot-section" id="chatbot">
-      <div class="background-image"></div>
-      <v-card class="chatbot-frame">
-        <v-card-text class="chatbot">
-          <v-list>
-            <v-list-item v-for="(message, index) in messages" :key="index" class="chat-message">
-              <v-list-item-content>
-                <v-list-item-title class="message-bubble">
-                  <strong>{{ message.role }}:</strong> {{ message.content }}
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-        </v-card-text>
-        <v-card-actions class="chatbot-input">
-          <v-text-field
+  <v-container class="chatbot-section" id="chatbot">
+    <div class="background-image"></div>
+    <v-card class="chatbot-frame">
+      <v-card-text class="chatbot">
+        <v-list>
+          <v-list-item v-for="(message, index) in messages" :key="index" class="chat-message">
+            <v-list-item-content>
+              <v-list-item-title class="message-bubble">
+                <strong>{{ message.role }}:</strong> {{ message.content }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-card-text>
+      <v-card-actions class="chatbot-input">
+        <v-text-field
           v-model="newMessageText"
           placeholder="Type a message"
           @keyup.enter="sendMessage"
           outlined
           dense
           class="chatbot-input-field"
-          ></v-text-field>
-          <v-btn @click="sendMessage" color="primary" class="chatbot-enter-button">Enter</v-btn>
-        </v-card-actions>
-      </v-card>
-      <v-btn v-if="showHint" class="scroll-hint" @click="scrollDown" icon>
-        <v-icon>Scroll to Learn More</v-icon> 
-      </v-btn>
-    </v-container>
-  </v-app>
+        ></v-text-field>
+        <v-btn @click="sendMessage" color="primary" class="chatbot-enter-button">Enter</v-btn>
+      </v-card-actions>
+    </v-card>
+    <v-btn v-if="showHint" class="scroll-hint" @click="scrollDown" icon>
+      <v-icon>Scroll to Learn More</v-icon> 
+    </v-btn>
+  </v-container>
 </template>
 
 <script setup lang="ts">
