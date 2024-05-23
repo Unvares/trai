@@ -34,12 +34,14 @@
 import { ref, onMounted } from 'vue';
 import { useChatbotStore } from '../stores/chatbotStore';
 import type { Message } from '../stores/types';
+import axios from 'axios';
+
 const store = useChatbotStore();
 const messages = store.messages;
 const newMessageText = ref('');
 const showHint = ref(true);
 
-const sendMessage = () => {
+const sendMessage = async () => {
   if (newMessageText.value.trim()) {
     const newMessage: Message = {
       content: newMessageText.value,
@@ -47,6 +49,19 @@ const sendMessage = () => {
     };
     store.addMessage(newMessage);
     newMessageText.value = '';
+    try {
+      const response = await axios.post('/api/AiHandler', [newMessage]);
+      store.addMessage({
+        role: 'system',
+        content: response.data.content || 'No response from AI.',
+      });
+    } catch (error) {
+      console.error('Error communicating with AI:', error);
+      store.addMessage({
+        role: 'system',
+        content: 'Failed to connect to AI.',
+      });
+    }
   }
 };
 
