@@ -81,8 +81,8 @@ onMounted(() => {
 
 
 .chatbot-frame {
-  width: 70%;
-  height: 60%; 
+  width: 80%;
+  height: 70%; 
   border: 1px solid #ccc;
   background: rgba(255, 255, 255, 0.9);
   border-radius: 10px;
@@ -101,9 +101,10 @@ onMounted(() => {
 
 .chatbot-input {
   display: flex;
-  gap: 10px;
+  gap: 5px;
   align-items: center;
   margin-top: 10px;
+  height : 20px;
 }
 
 .chatbot-input-field {

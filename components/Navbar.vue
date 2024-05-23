@@ -1,10 +1,11 @@
 <template>
   <div class="navbar-container">
       <v-app-bar class="navbar"> <!-- Set elevation to 0 to match your design -->
-        <v-app-bar-title> TRAI<!-- Place the title -->
+        <v-app-bar-title> <!-- Place the title -->
           <div class="logo-container">
             <img src="/assets/images/logo.png" alt="Logo" class="logo">
           </div>
+          <h1>TRAI</h1>
         </v-app-bar-title>
         <div class="menu">
           <v-btn @click="scrollToSection('chatbot')">Chatbot</v-btn>
@@ -29,6 +30,7 @@ const scrollToSection = (id: string) => {
 
 <style scoped lang="scss">
 
+
 .navbar-container {
   background: #6B8E23;
   position: relative;
@@ -47,6 +49,7 @@ const scrollToSection = (id: string) => {
 .logo-container {
   flex: 0 0 auto;
   float: left;
+  padding-right: 20px;
 }
 
 .logo {
