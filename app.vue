@@ -1,11 +1,13 @@
 <template>
-  <div class="container">
-    <Navbar />
-    <Chatbot />
-    <Instructions />
-    <AboutUs />
-    <ContactUs />
-  </div>
+  <v-app>
+    <div class="container">
+      <Navbar />
+      <Chatbot />
+      <Instructions />
+      <AboutUs />
+      <ContactUs />
+    </div>
+  </v-app>
 </template>
 
 <style lang="scss">
@@ -26,5 +28,7 @@ html {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background: #6B8E23;
 }
+
 </style>
