@@ -1,15 +1,10 @@
 import OpenAI from 'openai'
+import {ChatHistory, Message} from '../../stores/types';
 
 const client = new OpenAI({apiKey: process.env.API_KEY});
 
-type Messages = Array<Message>
 
-type Message = {
-    role: "function" | "system" | "user" | "assistant" ;
-    content: string;
-}
-
-async function fetchResponse(requestMessages: Messages): Promise<Message> {
+async function fetchResponse(requestMessages: ChatHistory): Promise<Message> {
     const response = await client.chat.completions.create({
         model: "gpt-3.5-turbo-1106",
         messages: requestMessages
@@ -22,6 +17,7 @@ async function fetchResponse(requestMessages: Messages): Promise<Message> {
             content: aiMessage.content
         };
     } else {
-        throw new Error('AI could not send response.')
+        throw new Error('AI could not send response.');
     }
+
 }
