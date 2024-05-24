@@ -25,7 +25,8 @@
       </v-card-actions>
     </v-card>
     <v-btn v-if="showHint" class="scroll-hint" @click="scrollDown" icon>
-      <v-icon>Scroll to Learn More</v-icon> 
+      <v-icon>mdi-chevron-down</v-icon> 
+      Scroll to Learn More
     </v-btn>
   </v-container>
 </template>
@@ -147,6 +148,7 @@ onMounted(() => {
   border-radius: 5px;
   cursor: pointer;
   animation: bounce 2s infinite;
+  width: 24%;
 }
 
 @keyframes bounce {

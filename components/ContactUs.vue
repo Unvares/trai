@@ -10,6 +10,8 @@
   padding: 20px;
   width: 100%;
   text-align: center;
+  border-radius: 10px;
+
 
   a {
     color: inherit;
