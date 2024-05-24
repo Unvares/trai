@@ -29,6 +29,8 @@ html {
   align-items: center;
   justify-content: center;
   background: #6B8E23;
+  background-image: url('assets/images/line-in-motion.svg');
+  background-repeat: repeat;
 }
 
 </style>

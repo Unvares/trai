@@ -3,32 +3,37 @@
     <v-card class="chatbot-frame">
       <v-card-text class="chatbot">
         <v-list>
-          <v-list-item v-for="(message, index) in messages" :key="index" class="chat-message">
-            <v-list-item-content>
-              <v-list-item-title class="message-bubble">
-                <strong>{{ message.role }}:</strong> {{ message.content }}
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-card-text>
-      <v-card-actions class="chatbot-input">
-        <v-text-field
-          v-model="newMessageText"
-          placeholder="Type a message"
-          @keyup.enter="sendMessage"
-          outlined
-          dense
-          class="chatbot-input-field"
-        ></v-text-field>
-        <v-btn @click="sendMessage" color="primary" class="chatbot-enter-button">Enter</v-btn>
-      </v-card-actions>
-    </v-card>
-    <v-btn v-if="showHint" class="scroll-hint" @click="scrollDown" icon>
-      <v-icon>mdi-chevron-down</v-icon> 
-      Scroll to Learn More
-    </v-btn>
-  </v-container>
+          <v-list-item
+          v-for="(message, index) in messages"
+          :key="index"
+          :class="['chat-message', message.role === 'user' ? 'user-message' : 'system-message']"
+          >
+          <div class = "message-container">
+            <div :class="['message-role', message.role]">{{ message.role }}</div>
+            <v-list-item-title :class="['message-bubble', message.role]">
+              {{ message.content }}
+            </v-list-item-title>
+          </div>
+        </v-list-item>
+      </v-list>
+    </v-card-text>
+    <v-card-actions class="chatbot-input">
+      <v-text-field
+      v-model="newMessageText"
+      placeholder="Type a message"
+      @keyup.enter="sendMessage"
+      outlined
+      dense
+      class="chatbot-input-field"
+      ></v-text-field>
+      <v-btn @click="sendMessage" color="primary" class="chatbot-enter-button">Enter</v-btn>
+    </v-card-actions>
+  </v-card>
+  <v-btn v-if="showHint" class="scroll-hint" @click="scrollDown" icon>
+    <v-icon>mdi-chevron-down</v-icon>
+    Scroll to Learn More
+  </v-btn>
+</v-container>
 </template>
 
 <script setup lang="ts">
@@ -81,6 +86,7 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
+
 .chatbot-section {
   margin-top: 150px;
   display: flex;
@@ -98,9 +104,9 @@ onMounted(() => {
 
 .chatbot-frame {
   width: 80%;
-  height: 70%; 
-  border: 1px solid #ccc;
-  background: rgba(255, 255, 255, 0.9);
+  height: 70%;
+  border: 1px solid #88868691;
+  background: rgba(249, 248, 248, 0.9);
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -131,15 +137,66 @@ onMounted(() => {
   margin-left: 10px;
 }
 
+.chat-message {
+  display: flex;
+  flex-direction: column;
+}
+.message-role {
+  font-size: 0.75em;
+  margin-bottom: 2px;
+  font-weight: bold;
+}
+
+
+
 .message-bubble {
-  background-color: #e0e0e0;
   padding: 10px;
   border-radius: 10px;
   margin: 5px 0;
-  word-wrap: break-word; /* Ensures words are wrapped correctly */
+  max-width: 80%; /* Adjusted max width for better separation */
   white-space: pre-wrap; /* Maintains whitespace and line breaks */
-  overflow-wrap: break-word; /* Breaks long words at the boundary */
 }
+.user-message {
+  align-items: flex-end;
+
+}
+
+.user-message .message-bubble {
+  background-color: #87CEEB;
+  align-self: flex-end;
+
+}
+
+.system-message {
+  align-items: flex-start;
+}
+
+.system-message .message-bubble {
+  background-color: #40b129c2;
+  align-self: flex-start;
+
+}
+
+
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+}
+
+.user-message .message-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.system-message .message-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 
 .scroll-hint {
   position: fixed;
