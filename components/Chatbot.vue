@@ -136,6 +136,9 @@ onMounted(() => {
   padding: 10px;
   border-radius: 10px;
   margin: 5px 0;
+  word-wrap: break-word; /* Ensures words are wrapped correctly */
+  white-space: pre-wrap; /* Maintains whitespace and line breaks */
+  overflow-wrap: break-word; /* Breaks long words at the boundary */
 }
 
 .scroll-hint {
