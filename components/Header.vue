@@ -1,9 +1,5 @@
 <template>
   <v-app-bar scroll-behavior="hide" class="navbar">
-    <template v-slot:prepend>
-      <img src="/assets/images/logo.png" alt="Logo" class="logo" />
-    </template>
-
     <v-app-bar-title>TRAI</v-app-bar-title>
 
     <template v-slot:append>
