@@ -1,7 +1,7 @@
 <template>
   <div class="chatbot">
     <div class="messages">
-      <div
+      <MessageBubble
         v-for="(message, index) in messages"
         :key="index"
         :class="[
@@ -10,7 +10,7 @@
         ]"
       >
         {{ message.content }}
-      </div>
+      </MessageBubble>
     </div>
     <div class="input-form">
       <v-textarea
@@ -87,27 +87,6 @@ const sendMessage = async () => {
   flex-flow: column nowrap;
   overflow-y: auto;
   background: none;
-}
-
-.message {
-  margin-bottom: 20px;
-  border-radius: 20px;
-  line-height: 1.25;
-  max-width: 75%;
-  padding: 10px 16px;
-  position: relative;
-  word-wrap: break-word;
-}
-
-.user-message {
-  align-self: flex-end;
-  background-color: rgb(115, 200, 210);
-  color: #fff;
-}
-
-.system-message {
-  align-self: flex-start;
-  background-color: #e5e5ea;
 }
 
 .input-form {
