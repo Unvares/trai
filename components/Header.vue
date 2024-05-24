@@ -46,7 +46,7 @@ const scrollTo = (id: string) => {
 
 <style scoped lang="scss">
 .navbar {
-  padding: 0 10px;
+  padding: 0 10% !important; // redefines bugged padding-inline-end property from Vuetify
 }
 
 .logo {

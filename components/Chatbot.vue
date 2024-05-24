@@ -1,51 +1,47 @@
 <template>
-  <v-container class="chatbot-section" id="chatbot">
-    <v-card class="chatbot-frame">
-      <v-card-text class="chatbot">
-        <v-list>
-          <v-list-item
-          v-for="(message, index) in messages"
-          :key="index"
-          :class="['chat-message', message.role === 'user' ? 'user-message' : 'system-message']"
-          >
-          <div class = "message-container">
-            <div :class="['message-role', message.role]">{{ message.role }}</div>
-            <v-list-item-title :class="['message-bubble', message.role]">
-              {{ message.content }}
-            </v-list-item-title>
-          </div>
-        </v-list-item>
-      </v-list>
-    </v-card-text>
-    <v-card-actions class="chatbot-input">
-      <v-text-field
-      v-model="newMessageText"
-      placeholder="Type a message"
-      @keyup.enter="sendMessage"
-      outlined
-      dense
-      class="chatbot-input-field"
-      ></v-text-field>
-      <v-btn @click="sendMessage" color="primary" class="chatbot-enter-button">Enter</v-btn>
-    </v-card-actions>
-  </v-card>
-  <v-btn v-if="showHint" class="scroll-hint" @click="scrollDown" icon>
-    <v-icon>mdi-chevron-down</v-icon>
-    Scroll to Learn More
-  </v-btn>
-</v-container>
+  <div class="chatbot">
+    <div class="messages">
+      <div
+        v-for="(message, index) in messages"
+        :key="index"
+        :class="[
+          'message',
+          message.role === 'user' ? 'user-message' : 'system-message',
+        ]"
+      >
+        {{ message.content }}
+      </div>
+    </div>
+    <div class="input-form">
+      <v-textarea
+        v-model="newMessageText"
+        label="Message"
+        @keydown.enter="sendMessage"
+        variant="solo"
+        class="input-field"
+        rows="1"
+        auto-grow
+        rounded="lg"
+      />
+      <v-icon
+        icon="mdi-send-variant"
+        @click="sendMessage"
+        color="primary"
+        class="submit-button"
+        size="x-large"
+      />
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { useChatbotStore } from '../stores/chatbotStore';
-import type { Message } from '../stores/types';
-import axios from 'axios';
+import { useChatbotStore } from "../stores/chatbotStore";
+import type { Message } from "../stores/types";
+import axios from "axios";
 
 const store = useChatbotStore();
 const messages = store.messages;
-const newMessageText = ref('');
-const showHint = ref(true);
+const newMessageText = ref("");
 
 const sendMessage = async () => {
   if (newMessageText.value.trim()) {
@@ -54,172 +50,82 @@ const sendMessage = async () => {
       role: "user",
     };
     store.addMessage(newMessage);
-    newMessageText.value = '';
+    newMessageText.value = "";
     try {
-      const response = await axios.post('/api/AiHandler', [newMessage]);
+      const response = await axios.post("/api/AiHandler", [newMessage]);
       store.addMessage({
-        role: 'system',
-        content: response.data.content || 'No response from AI.',
+        role: "system",
+        content: response.data.content || "No response from AI.",
       });
     } catch (error) {
-      console.error('Error communicating with AI:', error);
+      console.error("Error communicating with AI:", error);
       store.addMessage({
-        role: 'system',
-        content: 'Failed to connect to AI.',
+        role: "system",
+        content: "Failed to connect to AI.",
       });
     }
   }
 };
-
-const scrollDown = () => {
-  window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
-  showHint.value = false;
-};
-
-onMounted(() => {
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-      showHint.value = false;
-    }
-  });
-});
 </script>
 
 <style scoped lang="scss">
-
-.chatbot-section {
-  margin-top: 150px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: calc(100vh - 100px); /* Adjusted height */
-  position: relative;
-  overflow: visible;
-  box-sizing: border-box; /* Include padding and border in width and height */
-  background:  #87CEEB;
-  border-radius: 10px;
-}
-
-
-.chatbot-frame {
-  width: 80%;
+.chatbot {
+  margin: auto 0;
+  padding: 20px 20px 0;
+  width: 40%;
+  max-width: 1200px;
   height: 70%;
-  border: 1px solid #88868691;
-  background: rgba(249, 248, 248, 0.9);
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 10px;
-  position: relative;
-  z-index: 1;
 }
 
-.chatbot {
-  flex-grow: 1;
+.messages {
+  display: flex;
+  flex-flow: column nowrap;
   overflow-y: auto;
+  background: none;
 }
 
-.chatbot-input {
+.message {
+  margin-bottom: 20px;
+  border-radius: 20px;
+  line-height: 1.25;
+  max-width: 75%;
+  padding: 10px 16px;
+  position: relative;
+  word-wrap: break-word;
+}
+
+.user-message {
+  align-self: flex-end;
+  background-color: rgb(115, 200, 210);
+  color: #fff;
+}
+
+.system-message {
+  align-self: flex-start;
+  background-color: #e5e5ea;
+}
+
+.input-form {
+  position: relative;
   display: flex;
   gap: 5px;
   align-items: center;
   margin-top: 10px;
-  height : 20px;
+  max-height: 160px;
 }
 
-.chatbot-input-field {
-  flex-grow: 1;
+.input-field {
+  max-height: 160px;
+  overflow-y: auto;
 }
 
-.chatbot-enter-button {
+.submit-button {
   margin-left: 10px;
-}
-
-.chat-message {
-  display: flex;
-  flex-direction: column;
-}
-.message-role {
-  font-size: 0.75em;
-  margin-bottom: 2px;
-  font-weight: bold;
-}
-
-
-
-.message-bubble {
-  padding: 10px;
-  border-radius: 10px;
-  margin: 5px 0;
-  max-width: 80%; /* Adjusted max width for better separation */
-  white-space: pre-wrap; /* Maintains whitespace and line breaks */
-}
-.user-message {
-  align-items: flex-end;
-
-}
-
-.user-message .message-bubble {
-  background-color: #87CEEB;
-  align-self: flex-end;
-
-}
-
-.system-message {
-  align-items: flex-start;
-}
-
-.system-message .message-bubble {
-  background-color: #40b129c2;
-  align-self: flex-start;
-
-}
-
-
-
-.message-container {
-  display: flex;
-  flex-direction: column;
-  max-width: 100%;
-}
-
-.user-message .message-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.system-message .message-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-
-.scroll-hint {
-  position: fixed;
-  bottom: 10px;
-  left: 10px;
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  animation: bounce 2s infinite;
-  width: 24%;
-}
-
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-10px);
-  }
-  60% {
-    transform: translateY(-5px);
-  }
+  transform: translateY(-11px);
 }
 </style>

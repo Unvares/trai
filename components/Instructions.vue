@@ -1,82 +1,102 @@
 <template>
-  <v-container class="instructions-section" id="instructions">
-    <v-row>
-      <v-col cols="12" md="6" class="instructions-images">
-        <div class="instructions-header">
-          <h2>Instructions</h2>
-          <h4>Follow these steps to use the chatbot.</h4>
-        </div>
-        <img src="/assets/images/instruction1.png" alt="Instruction 1">
-        <img src="/assets/images/instruction2.png" alt="Instruction 2">
-        <img src="/assets/images/instruction3.png" alt="Instruction 3">
-      </v-col>
-      <v-col cols="12" md="6" class="instructions-text">
-        <br>
-        <p><strong>1.</strong> Scan the QR code at the local waste disposal area or visit us online.</p>
-        <br>
-        <p><strong>2.</strong> Use the text area in the chatbot to ask a question. For best results, ask questions about recycling.</p>
-        <br>
-        <p><strong>3.</strong> Recieve recycling advice from TRAI. Thank you for helping us reduce polution!</p>
-      </v-col>
-    </v-row>
-  </v-container>
+  <div class="instructions" id="instructions">
+    <div class="left-column"></div>
+    <div class="right-column">
+      <div class="text">
+        <h1 class="title">Instructions</h1>
+        <p>
+          Hi! Are you standing in front of a waste bin right now and are unsure
+          of where to put your item? We're here to help! This app is an
+          AI-powered chatbot to help students properly sort waste on campus. You
+          can scroll to the top of this page and click "start" button to start a
+          conversation with the chatbot. It will ask questions about the item
+          you want to get rid of to narrow down the bin.
+        </p>
+        <br />
+        <p>
+          One great thing about this app is that
+          <strong>the more you use it, the less you use it!</strong> Every time
+          you ask the chatbot for help, it will explain you where to put an item
+          and why exactly it goes into that bin.
+        </p>
+        <br />
+        <p class="highlighted-text">Scroll to the top and try it right now!</p>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped lang="scss">
-br {
-  display: block; /* makes it have a width */
-  content: ""; /* clears default height */
-  margin-top: 60px; /* change this to whatever height you want it */
-}
-
-.instructions-section {
+.instructions {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  max-height: 1080px;
+  padding: 40px 10%;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 20px 0;
-  background: #D2B48C;
-  border-radius: 10px;
-  padding: 20px;
-  
-  .instructions-images {
+  flex-flow: row nowrap;
+  align-items: space;
+  justify-content: space-between;
+  background-color: rgb(29, 53, 49);
+  color: white;
+
+  &::before,
+  &::after {
+    pointer-events: none;
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  &::before {
+    height: 20vh;
+    max-height: 650px;
+    background: linear-gradient(to top, transparent 0%, rgb(29, 53, 49) 100%);
+    z-index: 1;
+  }
+
+  &::after {
+    height: 100%;
+    background: url("assets/images/pinebranch.png");
+    z-index: 0;
+    filter: opacity(0.1);
+  }
+
+  .left-column {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     text-align: center;
-    
-    .instructions-header {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-      
-      h2, h4 {
-        margin: 0;
-      }
-    }
-    
-    img {
-      margin: 10px 0;
-      max-width: 60%; /* Adjusted for a cleaner look */
-      height: auto;
-      object-fit: contain;
-      border: 2px solid white; /* Adding a white border */
-      border-radius: 8px; /* Slightly curved edges */
-    }
   }
-  
-  .instructions-text {
+
+  .right-column {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 0 20px;
-    p {
-      margin: 10px 0;
-      font-size: 1.2em;
-      line-height: 1.5em;
-    }
   }
+
+  .text {
+    max-width: 500px;
+    z-index: 2;
+  }
+
+  .title {
+    width: 100%;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .subtitle {
+    margin-bottom: 20px;
+  }
+}
+
+.highlighted-text {
+  color: red;
 }
 </style>

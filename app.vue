@@ -1,14 +1,23 @@
 <template>
   <v-app>
     <div class="container">
-      <Navbar />
+      <Header />
       <HeroSection />
       <Instructions />
       <AboutUs />
-      <ContactUs />
+      <Footer />
     </div>
   </v-app>
 </template>
+
+<style scoped lang="scss">
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+</style>
 
 <style lang="scss">
 * {
@@ -18,7 +27,16 @@
 }
 
 html {
-  font-family: "Arial", sans-serif;
+  font-family: "Questrial", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Avenir Light", sans-serif;
 }
 
 h1 {
@@ -28,16 +46,9 @@ h1 {
 h2 {
   font-size: 36px;
 }
-</style>
 
-<style scoped lang="scss">
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: #6b8e23;
-  background-image: url("assets/images/line-in-motion.svg");
-  background-repeat: repeat;
+a {
+  color: inherit;
+  text-decoration: none;
 }
 </style>
