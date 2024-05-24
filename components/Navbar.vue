@@ -1,66 +1,61 @@
 <template>
-  <div class="navbar-container">
-      <v-app-bar class="navbar"> <!-- Set elevation to 0 to match your design -->
-        <v-app-bar-title> <!-- Place the title -->
-          <div class="logo-container">
-            <img src="/assets/images/logo.png" alt="Logo" class="logo">
-          </div>
-          <h1>TRAI</h1>
-        </v-app-bar-title>
-        <div class="menu">
-          <v-btn @click="scrollToSection('chatbot')">Chatbot</v-btn>
-          <v-btn @click="scrollToSection('instructions')">Instructions</v-btn>
-          <v-btn @click="scrollToSection('about')">About Us</v-btn>
-        </div>
-        <!-- Optionally, you can add action items and overflow menu here -->
-      </v-app-bar>
-  </div>
+  <v-app-bar scroll-behavior="hide" class="navbar">
+    <template v-slot:prepend>
+      <img src="/assets/images/logo.png" alt="Logo" class="logo" />
+    </template>
+
+    <v-app-bar-title>TRAI</v-app-bar-title>
+
+    <template v-slot:append>
+      <v-app-bar-nav-icon
+        v-if="xs"
+        @click.stop="drawer = !drawer"
+      ></v-app-bar-nav-icon>
+      <div v-else>
+        <v-btn variant="plain" @click="scrollTo('home')">Home</v-btn>
+        <v-btn variant="plain" @click="scrollTo('instructions')"
+          >Instructions</v-btn
+        >
+        <v-btn variant="plain" @click="scrollTo('about')">About Us</v-btn>
+      </div>
+    </template>
+  </v-app-bar>
+  <v-navigation-drawer temporary v-model="drawer" location="top">
+    <v-list class="list">
+      <v-list-item @click="scrollTo('home')">Home</v-list-item>
+      <v-list-item @click="scrollTo('instructions')">Instructions</v-list-item>
+      <v-list-item @click="scrollTo('about')">About Us</v-list-item>
+    </v-list>
+  </v-navigation-drawer>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { useDisplay } from "vuetify";
+const { xs } = useDisplay();
 
-const scrollToSection = (id: string) => {
+const drawer = ref(false);
+
+const scrollTo = (id: string) => {
   const element = document.getElementById(id);
   if (element) {
-    element.scrollIntoView({ behavior: 'smooth' });
+    element.scrollIntoView({ behavior: "smooth" });
+    drawer.value = false;
   }
 };
 </script>
 
 <style scoped lang="scss">
-
-
-.navbar-container {
-  background: #6B8E23;
-  position: relative;
-  width: 100%;
-  top: 0;
-  z-index: 1000; /* Ensure the navbar is above other content */
-}
-
 .navbar {
-  display: relative;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo-container {
-  flex: 0 0 auto;
-  float: left;
-  padding-right: 20px;
+  padding: 0 10px;
 }
 
 .logo {
   height: 40px;
-  width: auto;
 }
 
-.menu {
-  display: relative;
-  gap: 10px;
-  padding-right: 20px;
+.list {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
 }
-
 </style>
