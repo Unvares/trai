@@ -1,8 +1,11 @@
 <template>
   <div class="hero" id="home">
     <Chatbot v-if="chatHasStarted" />
-    <div class="title" v-if="!chatHasStarted">
-      <h1>TRAI</h1>
+    <div class="content" v-if="!chatHasStarted">
+      <h1 class="title">
+        <div ref="logo" class="logo" />
+        <span>TRAI</span>
+      </h1>
       <h2>Promoting Smart Recycling Habits</h2>
       <v-btn
         class="button"
@@ -42,6 +45,10 @@ onMounted(() => {
     }
   });
 });
+
+import logoData from "assets/images/logo.min.json";
+const logo = ref();
+onMounted(() => useLogoAnimation(logo, logoData));
 </script>
 
 <style scoped lang="scss">
@@ -57,7 +64,7 @@ onMounted(() => {
   background-image: url("assets/images/forest_and_skies.svg");
 }
 
-.title {
+.content {
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
@@ -66,6 +73,18 @@ onMounted(() => {
   transform: translateY(-50%);
   padding: 0 20px;
   z-index: 1;
+}
+
+.title {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+.logo {
+  $logo_size: 80px;
+  width: $logo_size;
+  height: $logo_size;
 }
 
 h1,

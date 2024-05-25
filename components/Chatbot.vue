@@ -70,16 +70,33 @@ const sendMessage = async () => {
 
 <style scoped lang="scss">
 .chatbot {
+  position: relative;
   margin: auto 0;
   padding: 20px 20px 0;
   width: 40%;
   max-width: 1200px;
   height: 70%;
-  background: rgba(255, 255, 255, 0.9);
   border-radius: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background-color: rgba(255, 255, 255, 0.9);
+  z-index: 3;
+
+  &::after {
+    pointer-events: none;
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: url("assets/images/logo_static.svg");
+    mix-blend-mode: overlay;
+    background-size: 80%;
+    background-position: center 20%;
+    background-repeat: no-repeat;
+  }
 }
 
 .messages {

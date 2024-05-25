@@ -1,6 +1,15 @@
 <template>
   <v-app-bar scroll-behavior="hide" class="navbar">
-    <v-app-bar-title>TRAI</v-app-bar-title>
+    <template v-slot:prepend>
+      <div
+        class="title"
+        @click="scrollTo('home')"
+        @mouseover="handleTitleHover"
+      >
+        <div ref="logo" class="logo" />
+        <span>TRAI</span>
+      </div>
+    </template>
 
     <template v-slot:append>
       <v-app-bar-nav-icon
@@ -28,7 +37,6 @@
 <script setup lang="ts">
 import { useDisplay } from "vuetify";
 const { xs } = useDisplay();
-
 const drawer = ref(false);
 
 const scrollTo = (id: string) => {
@@ -38,6 +46,16 @@ const scrollTo = (id: string) => {
     drawer.value = false;
   }
 };
+
+import logoData from "assets/images/logo.min.json";
+
+const logo = ref();
+const logoAnim = ref();
+onMounted(() => (logoAnim.value = useLogoAnimation(logo, logoData, false)));
+
+function handleTitleHover(): void {
+  logoAnim.value.play();
+}
 </script>
 
 <style scoped lang="scss">
@@ -45,8 +63,27 @@ const scrollTo = (id: string) => {
   padding: 0 10% !important; // redefines bugged padding-inline-end property from Vuetify
 }
 
+$logo_size: 40px;
+
 .logo {
-  height: 40px;
+  width: $logo_size;
+  height: $logo_size;
+  margin-right: 10px;
+}
+
+.title {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+
+  cursor: pointer;
+
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: $logo_size;
+  text-transform: none;
 }
 
 .list {
