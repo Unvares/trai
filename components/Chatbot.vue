@@ -1,5 +1,5 @@
 <template>
-  <div class="chatbot">
+  <div class="chatbot" :class="chatbotClasses">
     <div class="messages">
       <MessageBubble
         v-for="(message, index) in messages"
@@ -14,65 +14,72 @@
     </div>
     <div class="input-form">
       <v-textarea
-        v-model="newMessageText"
-        label="Message"
-        @keydown.enter="sendMessage"
+        v-model="textAreaValue"
+        placeholder="Message"
+        @keydown.enter="handleEnter"
         variant="solo"
+        flat
         class="input-field"
         rows="1"
         auto-grow
+        hide-details="auto"
         rounded="lg"
-      />
-      <v-icon
-        icon="mdi-send-variant"
-        @click="sendMessage"
-        color="primary"
-        class="submit-button"
-        size="x-large"
       />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useChatbotStore } from "../stores/chatbotStore";
-import type { Message } from "../stores/types";
+import { useDisplay } from "vuetify";
+import { useChatbotStore } from "@/stores/chatbotStore";
+import type { Message } from "@/stores/types";
 import axios from "axios";
+
+const { xs, sm } = useDisplay();
+const chatbotClasses = ref({});
+onMounted(
+  () => (chatbotClasses.value = { chatbot_mobile: xs, chatbot_tablet: sm })
+);
 
 const store = useChatbotStore();
 const messages = store.messages;
-const newMessageText = ref("");
+const textAreaValue = ref("");
 
-const sendMessage = async () => {
-  if (newMessageText.value.trim()) {
-    const newMessage: Message = {
-      content: newMessageText.value,
-      role: "user",
-    };
-    store.addMessage(newMessage);
-    newMessageText.value = "";
-    try {
-      const response = await axios.post("/api/AiHandler", [newMessage]);
-      store.addMessage({
-        role: "system",
-        content: response.data.content || "No response from AI.",
-      });
-    } catch (error) {
-      console.error("Error communicating with AI:", error);
-      store.addMessage({
-        role: "system",
-        content: "Failed to connect to AI.",
-      });
-    }
+const handleEnter = (e: KeyboardEvent) => {
+  if (e.key == "Enter" && !e.shiftKey && textAreaValue.value.trim()) {
+    e.preventDefault();
+    submitResponse();
   }
 };
+
+async function submitResponse() {
+  const messageObject: Message = {
+    content: textAreaValue.value,
+    role: "user",
+  };
+  store.addMessage(messageObject);
+  textAreaValue.value = "";
+
+  let content: string;
+  try {
+    const response = await axios.post("/api/AiHandler", [messageObject]);
+    content = response.data.content || "No response from AI.";
+  } catch (error) {
+    console.error("Error communicating with AI:", error);
+    content = "Failed to connect to AI.";
+  }
+  store.addMessage({
+    role: "system",
+    content,
+  });
+}
 </script>
 
 <style scoped lang="scss">
 .chatbot {
   position: relative;
   margin: auto 0;
-  padding: 20px 20px 0;
+  padding: 20px;
   width: 40%;
   max-width: 1200px;
   height: 70%;
@@ -96,7 +103,16 @@ const sendMessage = async () => {
     background-size: 80%;
     background-position: center 20%;
     background-repeat: no-repeat;
+    z-index: 1;
   }
+}
+
+.chatbot_tablet {
+  width: 60%;
+}
+
+.chatbot_mobile {
+  width: 80%;
 }
 
 .messages {
@@ -104,6 +120,7 @@ const sendMessage = async () => {
   flex-flow: column nowrap;
   overflow-y: auto;
   background: none;
+  z-index: 2;
 }
 
 .input-form {
@@ -113,15 +130,12 @@ const sendMessage = async () => {
   align-items: center;
   margin-top: 10px;
   max-height: 160px;
+  z-index: 2;
 }
 
 .input-field {
   max-height: 160px;
+  border-radius: 10px;
   overflow-y: auto;
-}
-
-.submit-button {
-  margin-left: 10px;
-  transform: translateY(-11px);
 }
 </style>
