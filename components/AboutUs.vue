@@ -1,5 +1,9 @@
 <template>
   <div class="about" id="about">
+    <v-lazy
+      :options="{'threshold':0.2}"
+      transition="fade-transition"
+    >
     <div class="left-column">
       <div class="text">
         <h1 class="title">About Us</h1>
@@ -50,6 +54,7 @@
       </div>
     </div>
     <div class="right-column"></div>
+  </v-lazy>
     <!-- <img src="/assets/images/about.png" alt="About Us Image" /> -->
   </div>
 </template>

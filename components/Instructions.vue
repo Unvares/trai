@@ -1,6 +1,10 @@
 <template>
   <div class="instructions" id="instructions">
     <div class="left-column"></div>
+    <v-lazy
+      :options="{'threshold':0.2}"
+      transition="fade-transition"
+    >
     <div class="right-column">
       <div class="text">
         <h1 class="title">Instructions</h1>
@@ -23,6 +27,7 @@
         <p class="highlighted-text">Scroll to the top and try it right now!</p>
       </div>
     </div>
+  </v-lazy>
   </div>
 </template>
 
