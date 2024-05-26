@@ -3,16 +3,18 @@
     <Transition name="fade-slide" mode="out-in">
       <component :is="currentComponent" v-bind="currentProps" />
     </Transition>
-    <v-btn
-      v-if="showHint"
-      class="scroll-hint"
-      :class="scrollHintClasses"
-      @click="scrollDown"
-      icon
-    >
-      <v-icon icon="mdi-chevron-down" size="large" />
-      Scroll to Learn More
-    </v-btn>
+    <Transition name="fade">
+      <v-btn
+        v-if="showHint"
+        class="scroll-hint"
+        :class="scrollHintClasses"
+        @click="scrollDown"
+        icon
+      >
+        <v-icon icon="mdi-chevron-down" size="large" />
+        Scroll to Learn More
+      </v-btn>
+    </Transition>
   </div>
 </template>
 
@@ -67,6 +69,14 @@ const currentProps = computed(() =>
 .fade-slide-leave-to {
   opacity: 0;
   transform: translateY(30px);
+}
+
+.fade-leave-active {
+  transition: all 0.5s ease;
+}
+
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
 

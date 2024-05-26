@@ -28,6 +28,7 @@
 
 html {
   font-family: "Questrial", sans-serif;
+  scroll-behavior: smooth;
 }
 
 h1,
