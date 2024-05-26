@@ -1,23 +1,8 @@
 <template>
   <div class="hero" id="home">
-    <Chatbot v-if="chatHasStarted" />
-    <div class="content" v-if="!chatHasStarted">
-      <h1 class="title">
-        <div ref="logo" class="logo" />
-        <span>TRAI</span>
-      </h1>
-      <h2>Promoting Smart Recycling Habits</h2>
-      <v-btn
-        class="button"
-        prepend-icon="mdi-message-arrow-right"
-        size="large"
-        color="amber"
-        elevation="4"
-        @click="startChat"
-      >
-        Start Chatbot
-      </v-btn>
-    </div>
+    <Transition name="fade-slide" mode="out-in">
+      <component :is="currentComponent" v-bind="currentProps" />
+    </Transition>
     <v-btn
       v-if="showHint"
       class="scroll-hint"
@@ -32,25 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { useDisplay } from "vuetify";
-const { xs, sm } = useDisplay();
-const scrollHintClasses = ref({});
-
-onMounted(
-  () =>
-    (scrollHintClasses.value = {
-      "scroll-hint_mobile": xs,
-      "scroll-hint_tablet": sm,
-    })
-);
-
-const chatHasStarted = ref(false);
-const startChat = () => {
-  chatHasStarted.value = true;
-};
-
 const showHint = ref(true);
-
 const scrollDown = () => {
   window.scrollBy({ top: window.innerHeight, behavior: "smooth" });
   showHint.value = false;
@@ -64,10 +31,44 @@ onMounted(() => {
   });
 });
 
-import logoData from "assets/images/logo.min.json";
-const logo = ref();
-onMounted(() => useLogoAnimation(logo, logoData));
+import { useDisplay } from "vuetify";
+const { xs, sm } = useDisplay();
+const scrollHintClasses = ref({});
+onMounted(
+  () =>
+    (scrollHintClasses.value = {
+      "scroll-hint_mobile": xs,
+      "scroll-hint_tablet": sm,
+    })
+);
+
+const chatHasStarted = ref(false);
+const startChat = () => {
+  chatHasStarted.value = true;
+};
+import Chatbot from "./Chatbot.vue";
+import HeroContent from "./HeroContent.vue";
+const currentComponent = computed(() =>
+  chatHasStarted.value ? Chatbot : HeroContent
+);
+const currentProps = computed(() =>
+  chatHasStarted.value ? {} : { startChat }
+);
 </script>
+
+<!-- Animations -->
+<style scoped lang="scss">
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: all 0.5s ease;
+}
+
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+</style>
 
 <style scoped lang="scss">
 .hero {
@@ -80,50 +81,6 @@ onMounted(() => useLogoAnimation(logo, logoData));
   max-height: 1080px;
   background-image: url("assets/images/forest_and_skies.svg");
   background-position: bottom center;
-}
-
-.content {
-  position: relative;
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-  margin: auto 0;
-  padding: 0 20px;
-  z-index: 1;
-
-  &::after {
-    position: absolute;
-    content: "";
-    border-radius: 50%;
-    top: 10%;
-    left: 10%;
-    width: 80%;
-    height: 80%;
-    background-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0px 10px 100px 100px rgba(255, 255, 255, 0.2);
-    z-index: -1;
-  }
-}
-
-.title {
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-}
-
-.logo {
-  $logo_size: 80px;
-  width: $logo_size;
-  height: $logo_size;
-}
-
-h1,
-h2 {
-  text-align: center;
-}
-
-.button {
-  margin-top: 10px;
 }
 
 .scroll-hint {
