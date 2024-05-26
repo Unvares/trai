@@ -100,8 +100,8 @@ async function submitResponse() {
     left: 0;
     background: url("assets/images/logo_static.svg");
     mix-blend-mode: overlay;
-    background-size: 80%;
-    background-position: center 20%;
+    background-size: clamp(200px, 80%, 600px);
+    background-position: center 30%;
     background-repeat: no-repeat;
     z-index: 1;
   }
