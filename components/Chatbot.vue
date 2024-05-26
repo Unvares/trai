@@ -62,7 +62,7 @@ async function submitResponse() {
 
   let content: string;
   try {
-    const response = await axios.post("/api/AiHandler", [messageObject]);
+    const response = await axios.post("/api/AiHandler", store.messages);
     content = response.data.content || "No response from AI.";
   } catch (error) {
     console.error("Error communicating with AI:", error);

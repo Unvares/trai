@@ -1,33 +1,32 @@
 <template>
   <div class="instructions" id="instructions">
     <div class="left-column"></div>
-    <v-lazy
-      :options="{'threshold':0.2}"
-      transition="fade-transition"
-    >
-    <div class="right-column">
-      <div class="text">
-        <h1 class="title">Instructions</h1>
-        <p>
-          Hi! Are you standing in front of a waste bin right now and are unsure
-          of where to put your item? We're here to help! This app is an
-          AI-powered chatbot to help students properly sort waste on campus. You
-          can scroll to the top of this page and click "start" button to start a
-          conversation with the chatbot. It will ask questions about the item
-          you want to get rid of to narrow down the bin.
-        </p>
-        <br />
-        <p>
-          One great thing about this app is that
-          <strong>the more you use it, the less you use it!</strong> Every time
-          you ask the chatbot for help, it will explain you where to put an item
-          and why exactly it goes into that bin.
-        </p>
-        <br />
-        <p class="highlighted-text">Scroll to the top and try it right now!</p>
+    <v-lazy :options="{ threshold: 0.2 }" transition="fade-transition">
+      <div class="right-column">
+        <div class="text">
+          <h1 class="title">Instructions</h1>
+          <p>
+            Hi! Are you standing in front of a waste bin right now and are
+            unsure of where to put your item? We're here to help! This app is an
+            AI-powered chatbot to help students properly sort waste on campus.
+            You can scroll to the top of this page and click "start" button to
+            start a conversation with the chatbot. It will ask questions about
+            the item you want to get rid of to narrow down the bin.
+          </p>
+          <br />
+          <p>
+            One great thing about this app is that
+            <strong>the more you use it, the less you use it!</strong> Every
+            time you ask the chatbot for help, it will explain you where to put
+            an item and why exactly it goes into that bin.
+          </p>
+          <br />
+          <p class="highlighted-text">
+            Scroll to the top and try it right now!
+          </p>
+        </div>
       </div>
-    </div>
-  </v-lazy>
+    </v-lazy>
   </div>
 </template>
 
