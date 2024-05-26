@@ -18,7 +18,13 @@
         Start Chatbot
       </v-btn>
     </div>
-    <v-btn v-if="showHint" class="scroll-hint" @click="scrollDown" icon>
+    <v-btn
+      v-if="showHint"
+      class="scroll-hint"
+      :class="scrollHintClasses"
+      @click="scrollDown"
+      icon
+    >
       <v-icon icon="mdi-chevron-down" size="large" />
       Scroll to Learn More
     </v-btn>
@@ -26,6 +32,18 @@
 </template>
 
 <script setup lang="ts">
+import { useDisplay } from "vuetify";
+const { xs, sm } = useDisplay();
+const scrollHintClasses = ref({});
+
+onMounted(
+  () =>
+    (scrollHintClasses.value = {
+      "scroll-hint_mobile": xs,
+      "scroll-hint_tablet": sm,
+    })
+);
+
 const chatHasStarted = ref(false);
 const startChat = () => {
   chatHasStarted.value = true;
@@ -40,7 +58,7 @@ const scrollDown = () => {
 
 onMounted(() => {
   window.addEventListener("scroll", () => {
-    if (window.scrollY > 200) {
+    if (window.scrollY > 60) {
       showHint.value = false;
     }
   });
@@ -53,7 +71,6 @@ onMounted(() => useLogoAnimation(logo, logoData));
 
 <style scoped lang="scss">
 .hero {
-  position: relative;
   width: 100%;
   display: flex;
   flex-flow: column nowrap;
@@ -68,9 +85,7 @@ onMounted(() => useLogoAnimation(logo, logoData));
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
+  margin: auto 0;
   padding: 0 20px;
   z-index: 1;
 }
@@ -97,7 +112,7 @@ h2 {
 }
 
 .scroll-hint {
-  position: absolute;
+  position: fixed;
   bottom: 10px;
   left: 10px;
   background: rgba(0, 0, 0, 0.3);
@@ -106,7 +121,17 @@ h2 {
   border-radius: 5px;
   cursor: pointer;
   animation: bounce 2s infinite;
+  min-width: 300px;
   width: 20%;
+  z-index: 3;
+}
+
+.scroll-hint_tablet {
+  left: calc(50% - 150px);
+}
+
+.scroll-hint_mobile {
+  width: calc(100% - 20px);
 }
 
 @keyframes bounce {

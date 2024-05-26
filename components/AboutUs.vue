@@ -58,12 +58,12 @@
 .about {
   position: relative;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   max-height: 1080px;
-  padding: 40px 10%;
+  padding: 80px 10% 120px;
   display: flex;
   flex-flow: row nowrap;
-  align-items: space;
+  align-items: center;
   justify-content: space-between;
   color: white;
   background-color: rgb(115, 200, 210);

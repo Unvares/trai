@@ -32,10 +32,10 @@
   width: 100%;
   height: 100vh;
   max-height: 1080px;
-  padding: 40px 10%;
+  padding: 80px 10% 200px;
   display: flex;
   flex-flow: row nowrap;
-  align-items: space;
+  align-items: center;
   justify-content: space-between;
   background-color: rgb(29, 53, 49);
   color: white;
@@ -51,7 +51,7 @@
   }
 
   &::before {
-    height: 20vh;
+    height: 40vh;
     max-height: 650px;
     background: linear-gradient(to top, transparent 0%, rgb(29, 53, 49) 100%);
     z-index: 1;

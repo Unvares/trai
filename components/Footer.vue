@@ -32,10 +32,10 @@
   &::before {
     position: absolute;
     content: "";
-    top: -60px;
+    top: -40px;
     right: 0px;
     width: 150%;
-    height: 60px;
+    height: 40px;
     transform: rotate(180deg);
     background: url("assets/images/footer.svg");
   }
