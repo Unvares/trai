@@ -1,6 +1,6 @@
 <template>
   <div class="chatbot" :class="chatbotClasses">
-    <div class="messages">
+    <div class="messages" ref="messagesDiv">
       <MessageBubble
         v-for="(message, index) in messages"
         :key="index"
@@ -42,7 +42,9 @@ onMounted(
 );
 
 const store = useChatbotStore();
-const messages = store.messages;
+const messages = computed(() =>
+  store.messages.filter((message) => message.role !== "system")
+);
 const textAreaValue = ref("");
 
 const handleEnter = (e: KeyboardEvent) => {
@@ -52,6 +54,8 @@ const handleEnter = (e: KeyboardEvent) => {
   }
 };
 
+const messagesDiv: Ref<Element | undefined> = ref();
+
 async function submitResponse() {
   const messageObject: Message = {
     content: textAreaValue.value,
@@ -59,19 +63,22 @@ async function submitResponse() {
   };
   store.addMessage(messageObject);
   textAreaValue.value = "";
-
-  let content: string;
+  await nextTick();
+  scrollToChatEnd();
   try {
     const response = await axios.post("/api/AiHandler", store.messages);
-    content = response.data.content || "No response from AI.";
+    store.addMessage(response.data);
+    await nextTick();
+    scrollToChatEnd();
   } catch (error) {
     console.error("Error communicating with AI:", error);
-    content = "Failed to connect to AI.";
   }
-  store.addMessage({
-    role: "system",
-    content,
-  });
+}
+
+function scrollToChatEnd() {
+  if (messagesDiv.value) {
+    messagesDiv.value.scrollTop = messagesDiv.value.scrollHeight;
+  }
 }
 </script>
 
