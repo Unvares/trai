@@ -1,7 +1,7 @@
 <template>
   <div class="footer" id="footer">
     <p class="title">Contact us at:</p>
-    <div>
+    <div class="emails">
       <a class="email" href="mailto:email@example.com"
         >mm224ys@student.lnu.se</a
       >
@@ -45,7 +45,15 @@
   margin-bottom: 30px;
 }
 
-.email {
-  margin: 0 20px;
+.emails {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+
+  .email {
+    margin: 5px 20px;
+  }
 }
 </style>
