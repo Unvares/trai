@@ -61,7 +61,7 @@
     height: 100%;
     background: url("assets/images/pinebranch.png");
     z-index: 0;
-    filter: opacity(0.1);
+    filter: opacity(0.3);
   }
 
   .left-column {

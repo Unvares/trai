@@ -51,7 +51,7 @@ import logoData from "assets/images/logo.min.json";
 
 const logo = ref();
 const logoAnim = ref();
-onMounted(() => (logoAnim.value = useLogoAnimation(logo, logoData, false)));
+onMounted(() => (logoAnim.value = useLogoAnimation(logo, logoData)));
 
 function handleTitleHover(): void {
   logoAnim.value.play();

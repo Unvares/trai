@@ -79,15 +79,30 @@ onMounted(() => useLogoAnimation(logo, logoData));
   height: 100vh;
   max-height: 1080px;
   background-image: url("assets/images/forest_and_skies.svg");
+  background-position: bottom center;
 }
 
 .content {
+  position: relative;
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
   margin: auto 0;
   padding: 0 20px;
   z-index: 1;
+
+  &::after {
+    position: absolute;
+    content: "";
+    border-radius: 50%;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0px 10px 100px 100px rgba(255, 255, 255, 0.2);
+    z-index: -1;
+  }
 }
 
 .title {
