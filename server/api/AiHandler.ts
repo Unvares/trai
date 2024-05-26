@@ -1,5 +1,5 @@
-import { fetchResponse } from '../api/AiAdapter';
-import type { Message } from '../../stores/types';
+import { fetchResponse } from '@/server/api/AiAdapter';
+import type { Message } from '@/types';
 import { readBody } from 'h3';
 
 

@@ -1,7 +1,7 @@
 <template>
   <div class="footer" id="footer">
     <p class="title">Contact us at:</p>
-    <div>
+    <div class="emails">
       <a class="email" href="mailto:email@example.com"
         >mm224ys@student.lnu.se</a
       >
@@ -32,10 +32,10 @@
   &::before {
     position: absolute;
     content: "";
-    top: -60px;
+    top: -40px;
     right: 0px;
     width: 150%;
-    height: 60px;
+    height: 40px;
     transform: rotate(180deg);
     background: url("assets/images/footer.svg");
   }
@@ -45,7 +45,15 @@
   margin-bottom: 30px;
 }
 
-.email {
-  margin: 0 20px;
+.emails {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+
+  .email {
+    margin: 5px 20px;
+  }
 }
 </style>
