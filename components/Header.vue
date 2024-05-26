@@ -12,26 +12,32 @@
     </template>
 
     <template v-slot:append>
-      <v-app-bar-nav-icon
-        v-if="xs"
-        @click.stop="drawer = !drawer"
-      ></v-app-bar-nav-icon>
-      <div v-else>
-        <v-btn variant="plain" @click="scrollTo('home')">Home</v-btn>
-        <v-btn variant="plain" @click="scrollTo('instructions')"
-          >Instructions</v-btn
-        >
-        <v-btn variant="plain" @click="scrollTo('about')">About Us</v-btn>
-      </div>
+      <ClientOnly>
+        <v-app-bar-nav-icon
+          v-if="xs"
+          @click.stop="drawer = !drawer"
+        ></v-app-bar-nav-icon>
+        <div v-else>
+          <v-btn variant="plain" @click="scrollTo('home')">Home</v-btn>
+          <v-btn variant="plain" @click="scrollTo('instructions')"
+            >Instructions</v-btn
+          >
+          <v-btn variant="plain" @click="scrollTo('about')">About Us</v-btn>
+        </div>
+      </ClientOnly>
     </template>
   </v-app-bar>
-  <v-navigation-drawer temporary v-model="drawer" location="top">
-    <v-list class="list">
-      <v-list-item @click="scrollTo('home')">Home</v-list-item>
-      <v-list-item @click="scrollTo('instructions')">Instructions</v-list-item>
-      <v-list-item @click="scrollTo('about')">About Us</v-list-item>
-    </v-list>
-  </v-navigation-drawer>
+  <ClientOnly>
+    <v-navigation-drawer temporary v-model="drawer" location="top">
+      <v-list class="list">
+        <v-list-item @click="scrollTo('home')">Home</v-list-item>
+        <v-list-item @click="scrollTo('instructions')"
+          >Instructions</v-list-item
+        >
+        <v-list-item @click="scrollTo('about')">About Us</v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+  </ClientOnly>
 </template>
 
 <script setup lang="ts">
