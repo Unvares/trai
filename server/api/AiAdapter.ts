@@ -13,11 +13,7 @@ export async function fetchResponse(requestMessages: Message[]): Promise<Message
     });
 
     if (response.choices) {
-        const aiMessage = response.choices[0].message;
-        return {
-            role: 'system',
-            content: aiMessage.content || "AI could not send response.",
-        };
+        return response.choices[0].message as Message;
     } else {
         throw new Error('AI could not send response.');
     }
