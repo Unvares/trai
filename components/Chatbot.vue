@@ -32,7 +32,7 @@
 <script setup lang="ts">
 import { useDisplay } from "vuetify";
 import { useChatbotStore } from "@/stores/chatbotStore";
-import type { Message } from "@/stores/types";
+import type { Message } from "@/types";
 import axios from "axios";
 
 const { xs, sm } = useDisplay();
@@ -139,3 +139,4 @@ async function submitResponse() {
   overflow-y: auto;
 }
 </style>
+~/types

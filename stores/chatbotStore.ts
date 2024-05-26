@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import type { Message } from './types';
+import type { Message } from '@/types';
 
 export const useChatbotStore = defineStore('chatbot', {
   state: () => ({
