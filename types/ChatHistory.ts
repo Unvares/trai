@@ -1,3 +1,3 @@
-import type { Message } from "./Message";
+import type { Message, ThreadMessage } from './Messages';
 
-export type ChatHistory = [Message];
+export type ChatHistory = Array<Message | ThreadMessage>;

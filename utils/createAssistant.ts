@@ -27,14 +27,14 @@ const createAssistant = async () => {
       `Assistant "${assistantName}" already exists with ID: ${assistant.id}. Updating it.`
     );
     assistant = await client.beta.assistants.update(assistant.id, {
-      instructions: preprompt,
+      instructions: preprompt.content,
       tools: [{ type: 'file_search' }],
       model,
     });
   } else {
     assistant = await client.beta.assistants.create({
       name: assistantName,
-      instructions: preprompt,
+      instructions: preprompt.content,
       tools: [{ type: 'file_search' }],
       model,
     });

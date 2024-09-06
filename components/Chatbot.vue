@@ -32,7 +32,7 @@
 <script setup lang="ts">
 import { useDisplay } from 'vuetify';
 import { useChatbotStore } from '@/stores/chatbotStore';
-import type { Message } from '@/types/Message';
+import type { Message, ThreadMessage } from '@/types/Messages';
 import type { ChatResponse } from '@/types/ChatResponse';
 import axios from 'axios';
 
@@ -43,20 +43,22 @@ onMounted(
 );
 
 const store = useChatbotStore();
-const messages = computed(() => store.messages);
+const messages = computed(() =>
+  store.messages.filter((message) => message.role !== 'system')
+);
 const textAreaValue = ref('');
 
 const handleEnter = (e: KeyboardEvent) => {
   if (e.key == 'Enter' && !e.shiftKey && textAreaValue.value.trim()) {
     e.preventDefault();
-    submitResponse();
+    getChatResponse();
   }
 };
 
 const messagesDiv: Ref<Element | undefined> = ref();
 
-async function submitResponse() {
-  const messageObject: Message = {
+async function getAssistantResponse() {
+  const messageObject: ThreadMessage = {
     content: textAreaValue.value,
     role: 'user',
     isNewMessage: true,
@@ -69,8 +71,8 @@ async function submitResponse() {
     const threadId = sessionStorage.getItem('thread_id');
     // Update before submission to prevent sync issues if the server throws an error
     const newMessages = store.messages
-      .filter((message) => {
-        if (message.isNewMessage) {
+      .filter((message): message is ThreadMessage => {
+        if ('isNewMessage' in message && message.isNewMessage) {
           message.isNewMessage = false;
           return true;
         }
@@ -78,7 +80,7 @@ async function submitResponse() {
       })
       .map(({ isNewMessage, ...rest }) => rest);
 
-    const response = await axios.post('/api/chat', newMessages, {
+    const response = await axios.post('/api/assistant', newMessages, {
       headers: {
         'Thread-Id': threadId || '',
       },
@@ -102,6 +104,37 @@ async function submitResponse() {
     if (responseData.message) {
       store.addMessage(responseData.message);
     }
+
+    await nextTick();
+    scrollToChatEnd();
+  } catch (error) {
+    console.error('Error communicating with AI:', error);
+  }
+}
+
+async function getChatResponse() {
+  try {
+    const messageObject: ThreadMessage = {
+      content: textAreaValue.value,
+      role: 'user',
+      isNewMessage: true,
+    };
+    store.addMessage(messageObject);
+    textAreaValue.value = '';
+    await nextTick();
+    scrollToChatEnd();
+
+    const requestMessages = store.messages;
+
+    const response = await axios.post('/api/chat', requestMessages);
+
+    const responseData = response.data as Message;
+
+    if (!responseData.content) {
+      throw new Error('The response is empty.');
+    }
+
+    store.addMessage(responseData);
 
     await nextTick();
     scrollToChatEnd();
