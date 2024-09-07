@@ -5,7 +5,7 @@ import type { Assistant } from 'openai/resources/beta/assistants.mjs';
 
 const assistantName = 'TRAI Assistant';
 const vectorStoreName = 'Waste Sorting Guidelines';
-const model = 'gpt-3.5-turbo-1106';
+const model = 'gpt-4o-mini';
 const docNames = ['WasteSeparation.pdf'];
 const docs = docNames.map((name) => `assets/docs/${name}`);
 
