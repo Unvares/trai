@@ -9,40 +9,45 @@ const client = new OpenAI({
 
 export default defineEventHandler(async (event) => {
   try {
-    console.log('Request received');
+    console.info('Received request at /api/assistant. Processing started.');
+    console.info('Parsing request body');
     const requestMessages: ThreadCreateParams.Message[] = await readBody(event);
-    console.log('Number of received messages: ', requestMessages.length);
+
+    if (requestMessages.length === 0) {
+      throw new Error('No messages were provided');
+    }
+    console.info('Number of received messages:', requestMessages.length);
 
     let threadId = getHeader(event, 'Thread-Id');
     let thread;
     if (!threadId) {
-      console.log('Thread ID not found in the header');
+      console.info('Thread ID not found in the header');
       thread = await client.beta.threads.create({
         messages: requestMessages as ThreadCreateParams.Message[],
       });
       threadId = thread.id;
-      console.log('Created new thread with ID:', threadId);
+      console.info('Created new thread with ID:', threadId);
     } else {
-      console.log('Thread ID from header:', threadId);
+      console.info('Thread ID found in header:', threadId);
+      thread = await client.beta.threads.retrieve(threadId);
+      console.info('Retrieved existing thread:', thread);
       for (const message of requestMessages) {
-        console.log('Adding message to existing thread:', message);
+        console.info('Adding message to existing thread:', message);
         await client.beta.threads.messages.create(threadId, message);
       }
-      thread = await client.beta.threads.retrieve(threadId);
-      console.log('Retrieved existing thread:', thread);
     }
 
     const assistantId = process.env.ASSISTANT_ID;
     if (!assistantId) {
       throw new Error('ASSISTANT_ID is not defined in environment variables');
     }
-    console.log('Using assistant ID:', assistantId);
+    console.info('Using assistant ID:', assistantId);
     const run = await client.beta.threads.runs.create(threadId, {
       assistant_id: assistantId,
       stream: true,
       response_format: { type: 'text' },
     });
-    console.log('Run created');
+    console.info('Run created');
 
     let message: ThreadMessage | null = null;
 
@@ -59,12 +64,12 @@ export default defineEventHandler(async (event) => {
           content,
           isNewMessage: false,
         };
-        console.log('Message from assistant:', message);
+        console.info('Message from assistant:', message);
       }
     }
 
     if (message) {
-      console.log('Returning response with thread ID and message:', {
+      console.info('Returning response with thread ID and message:', {
         threadId,
         message,
       });
@@ -73,11 +78,16 @@ export default defineEventHandler(async (event) => {
       throw new Error('AI could not send response.');
     }
   } catch (error: any) {
-    console.error('Error occurred:', error);
+    console.error('Error encountered. Aborting execution...');
+    console.error('Error details:', error);
     event.node.res.statusCode = 500;
     return {
       error:
         error.message || 'Error unknown: Failed to fetch response from OpenAI',
     };
+  } finally {
+    // Log a newline to visually separate this
+    // request from subsequent requests in the logs.
+    console.log();
   }
 });
