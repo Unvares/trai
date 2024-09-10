@@ -4,20 +4,25 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
+    "create-assistant": "tsx utils/createAssistant.ts",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@langchain/core": "^0.2.31",
+    "@langchain/openai": "^0.2.10",
     "@mdi/font": "^7.4.47",
     "@nuxtjs/vuetify": "^1.12.3",
     "@pinia/nuxt": "^0.5.1",
     "axios": "^1.7.0",
+    "langchain": "^0.2.18",
     "lottie-web": "^5.12.2",
     "nuxt": "^3.11.2",
     "openai": "^4.0.0",
     "pinia": "^2.1.7",
+    "tsx": "^4.19.0",
     "vue": "^3.4.27",
     "vue-router": "^4.3.2"
   },

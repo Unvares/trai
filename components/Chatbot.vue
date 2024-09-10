@@ -30,10 +30,11 @@
 </template>
 
 <script setup lang="ts">
-import { useDisplay } from "vuetify";
-import { useChatbotStore } from "@/stores/chatbotStore";
-import type { Message } from "@/types";
-import axios from "axios";
+import { useDisplay } from 'vuetify';
+import { useChatbotStore } from '@/stores/chatbotStore';
+import type { Message, ThreadMessage } from '@/types/Messages';
+import type { ChatResponse } from '@/types/ChatResponse';
+import axios from 'axios';
 
 const { xs, sm } = useDisplay();
 const chatbotClasses = ref({});
@@ -43,35 +44,102 @@ onMounted(
 
 const store = useChatbotStore();
 const messages = computed(() =>
-  store.messages.filter((message) => message.role !== "system")
+  store.messages.filter((message) => message.role !== 'system')
 );
-const textAreaValue = ref("");
+const textAreaValue = ref('');
 
 const handleEnter = (e: KeyboardEvent) => {
-  if (e.key == "Enter" && !e.shiftKey && textAreaValue.value.trim()) {
+  if (e.key == 'Enter' && !e.shiftKey && textAreaValue.value.trim()) {
     e.preventDefault();
-    submitResponse();
+    getChatResponse();
   }
 };
 
 const messagesDiv: Ref<Element | undefined> = ref();
 
-async function submitResponse() {
-  const messageObject: Message = {
+async function getAssistantResponse() {
+  const messageObject: ThreadMessage = {
     content: textAreaValue.value,
-    role: "user",
+    role: 'user',
+    isNewMessage: true,
   };
   store.addMessage(messageObject);
-  textAreaValue.value = "";
+  textAreaValue.value = '';
   await nextTick();
   scrollToChatEnd();
   try {
-    const response = await axios.post("/api/AiHandler", store.messages);
-    store.addMessage(response.data);
+    const threadId = sessionStorage.getItem('thread_id');
+    // Update before submission to prevent sync issues if the server throws an error
+    const newMessages = store.messages
+      .filter((message): message is ThreadMessage => {
+        if ('isNewMessage' in message && message.isNewMessage) {
+          message.isNewMessage = false;
+          return true;
+        }
+        return false;
+      })
+      .map(({ isNewMessage, ...rest }) => rest);
+
+    const response = await axios.post('/api/assistant', newMessages, {
+      headers: {
+        'Thread-Id': threadId || '',
+      },
+    });
+
+    const responseData = response.data as ChatResponse;
+
+    if (responseData.error) {
+      console.error('Error in response data:', responseData.error);
+      throw new Error(responseData.error);
+    }
+
+    if (!responseData.message && !responseData.threadId) {
+      throw new Error('The response is empty.');
+    }
+
+    if (responseData.threadId) {
+      sessionStorage.setItem('thread_id', responseData.threadId);
+    }
+
+    if (responseData.message) {
+      store.addMessage(responseData.message);
+    }
+
     await nextTick();
     scrollToChatEnd();
   } catch (error) {
-    console.error("Error communicating with AI:", error);
+    console.error('Error communicating with AI:', error);
+  }
+}
+
+async function getChatResponse() {
+  try {
+    const messageObject: ThreadMessage = {
+      content: textAreaValue.value,
+      role: 'user',
+      isNewMessage: true,
+    };
+    store.addMessage(messageObject);
+    textAreaValue.value = '';
+    await nextTick();
+    scrollToChatEnd();
+
+    const requestMessages = store.messages;
+
+    const response = await axios.post('/api/chat', requestMessages);
+
+    const responseData = response.data as Message;
+
+    if (!responseData.content) {
+      throw new Error('The response is empty.');
+    }
+
+    store.addMessage(responseData);
+
+    await nextTick();
+    scrollToChatEnd();
+  } catch (error) {
+    console.error('Error communicating with AI:', error);
   }
 }
 
@@ -99,13 +167,13 @@ function scrollToChatEnd() {
 
   &::after {
     pointer-events: none;
-    content: "";
+    content: '';
     position: absolute;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
-    background: url("assets/images/logo_static.svg");
+    background: url('assets/images/logo_static.svg');
     mix-blend-mode: overlay;
     background-size: clamp(200px, 80%, 600px);
     background-position: center 30%;
@@ -146,4 +214,3 @@ function scrollToChatEnd() {
   overflow-y: auto;
 }
 </style>
-~/types

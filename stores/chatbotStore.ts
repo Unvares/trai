@@ -1,15 +1,13 @@
 import { defineStore } from 'pinia';
-import type { Message } from '@/types';
-import preprompt from "assets/preprompt";
+import type { Message, ThreadMessage } from '@/types/Messages';
+import type { ChatHistory } from '@/types/ChatHistory';
 
 export const useChatbotStore = defineStore('chatbot', {
   state: () => ({
-    messages: [
-      preprompt
-    ] as Message[],
+    messages: [] as unknown as ChatHistory,
   }),
   actions: {
-    addMessage(message: Message) {
+    addMessage(message: Message | ThreadMessage) {
       this.messages.push(message);
     },
   },
