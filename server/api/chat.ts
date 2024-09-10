@@ -1,6 +1,7 @@
 import OpenAI from 'openai';
 import { readBody } from 'h3';
 import type { Message } from '@/types/Messages';
+import { systemMessage, guidelines } from '@/assets/preprompt';
 
 const client = new OpenAI({
   apiKey: process.env.API_KEY,
@@ -15,6 +16,7 @@ export default defineEventHandler(async (event) => {
     if (requestMessages.length === 0) {
       throw new Error('No messages were provided');
     }
+
     console.info('Request body successfully parsed');
 
     console.info('Fetching response from OpenAI');
@@ -36,6 +38,10 @@ export default defineEventHandler(async (event) => {
 
 async function fetchResponse(requestMessages: Message[]): Promise<Message> {
   console.info('Invoking OpenAI API with provided messages');
+  requestMessages.unshift({
+    role: 'system',
+    content: systemMessage + guidelines,
+  });
   const response = await client.chat.completions.create({
     model: 'gpt-4o-mini',
     messages: requestMessages,

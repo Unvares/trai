@@ -1,6 +1,6 @@
 import { OpenAI } from 'openai';
 import { createReadStream } from 'fs';
-import preprompt from '~/assets/preprompt';
+import { systemMessage, guidelines } from '@/assets/preprompt';
 import type { Assistant } from 'openai/resources/beta/assistants.mjs';
 
 const assistantName = 'TRAI Assistant';
@@ -27,14 +27,14 @@ const createAssistant = async () => {
       `Assistant "${assistantName}" already exists with ID: ${assistant.id}. Updating it.`
     );
     assistant = await client.beta.assistants.update(assistant.id, {
-      instructions: preprompt.content,
+      instructions: systemMessage + guidelines,
       tools: [{ type: 'file_search' }],
       model,
     });
   } else {
     assistant = await client.beta.assistants.create({
       name: assistantName,
-      instructions: preprompt.content,
+      instructions: systemMessage + guidelines,
       tools: [{ type: 'file_search' }],
       model,
     });
