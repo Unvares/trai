@@ -4,7 +4,13 @@ import type { ChatHistory } from '@/types/ChatHistory';
 
 export const useChatbotStore = defineStore('chatbot', {
   state: () => ({
-    messages: [] as unknown as ChatHistory,
+    messages: [
+      {
+        content:
+          'Welcome to your campus recycling assistant! 🌍 Have questions about waste sorting or recycling? I’m here to make it easy. Let’s work together to keep our university clean and sustainable. ♻️ Ask away!',
+        role: 'assistant',
+      },
+    ] as unknown as ChatHistory,
   }),
   actions: {
     addMessage(message: Message | ThreadMessage) {
