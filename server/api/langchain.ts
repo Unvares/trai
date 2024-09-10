@@ -7,8 +7,14 @@ import {
   HumanMessage,
   SystemMessage,
 } from '@langchain/core/messages';
+import {
+  systemMessage as preprompt,
+  guidelines,
+  relatedToWasteRecyclingPrompt,
+  handleDeviationPrompt,
+} from '@/assets/preprompt';
 
-const llm = new ChatOpenAI({
+const model = new ChatOpenAI({
   model: 'gpt-4o-mini',
   apiKey: process.env.API_KEY,
 });
@@ -24,12 +30,34 @@ export default defineEventHandler(async (event) => {
     }
     console.info('Request body successfully parsed');
 
-    console.info('Converting request messages into LangChain message objects');
-    const langchainMessages = requestMessages.map(convertToLangchainMessages);
+    const lastFiveMessages = requestMessages
+      .slice(-5)
+      .map(convertToLangchainMessages);
     console.info('LangChain message objects successfully generated');
 
+    const deviationCheckSystemMessage = new SystemMessage(
+      preprompt + relatedToWasteRecyclingPrompt
+    );
+    const relatedToWasteRecyclingRequest = [
+      deviationCheckSystemMessage,
+      ...lastFiveMessages,
+    ];
+
+    console.info('Determining if the last message deviates from the topic');
+    const deviationCheckResponse = await model.invoke(
+      relatedToWasteRecyclingRequest
+    );
+    console.info('Deviation check completed.');
+    const allMessages = requestMessages.map(convertToLangchainMessages);
+    allMessages.unshift(new SystemMessage(preprompt + guidelines));
+
+    if (deviationCheckResponse.content === 'redirect') {
+      const deviationMessage = new SystemMessage(handleDeviationPrompt);
+      allMessages.push(deviationMessage);
+    }
+
     console.info('Invoking the LLM to generate a response');
-    const response = await llm.invoke(langchainMessages);
+    const response = await model.invoke(allMessages);
     console.info('Response successfully generated. Returning...');
 
     return {
