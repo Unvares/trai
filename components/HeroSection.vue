@@ -44,10 +44,21 @@ onMounted(
     })
 );
 
-const chatHasStarted = ref(false);
+import { useChatbotStore } from '@/stores/chatbotStore';
+
+const store = useChatbotStore();
+const chatHasStarted = computed(() => store.chatHasStarted);
+
 const startChat = () => {
-  chatHasStarted.value = true;
+  store.chatHasStarted = true;
 };
+
+watch(chatHasStarted, (newVal) => {
+  if (newVal) {
+    showHint.value = false;
+  }
+});
+
 import Chatbot from './Chatbot.vue';
 import HeroContent from './HeroContent.vue';
 const currentComponent = computed(() =>
@@ -77,6 +88,7 @@ const currentProps = computed(() =>
 
 .fade-leave-to {
   opacity: 0;
+  pointer-events: none; /* Make unclickable during fade-out */
 }
 </style>
 

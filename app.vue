@@ -1,14 +1,24 @@
 <template>
   <v-app>
     <div class="container">
-      <Header />
       <HeroSection />
-      <Instructions />
-      <AboutUs />
-      <Footer />
+      <Header v-if="!(chatHasStarted && smAndDown)" />
+      <Instructions v-if="!(chatHasStarted && smAndDown)" />
+      <AboutUs v-if="!(chatHasStarted && smAndDown)" />
+      <Footer v-if="!(chatHasStarted && smAndDown)" />
     </div>
   </v-app>
 </template>
+
+<script setup lang="ts">
+import { useChatbotStore } from '@/stores/chatbotStore';
+import { useDisplay } from 'vuetify';
+
+const store = useChatbotStore();
+const chatHasStarted = computed(() => store.chatHasStarted);
+
+const { smAndDown } = useDisplay();
+</script>
 
 <style scoped lang="scss">
 .container {

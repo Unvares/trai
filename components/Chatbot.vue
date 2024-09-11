@@ -188,8 +188,8 @@ function scrollToChatEnd() {
 
 .chatbot_mobile {
   width: 100%;
-  height: calc(100svh - 64px);
-  margin: auto 0 0;
+  height: 100svh;
+  margin: auto;
   border-radius: 0;
 }
 

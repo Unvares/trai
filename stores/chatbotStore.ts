@@ -11,6 +11,7 @@ export const useChatbotStore = defineStore('chatbot', {
         role: 'assistant',
       },
     ] as unknown as ChatHistory,
+    chatHasStarted: false,
   }),
   actions: {
     addMessage(message: Message | ThreadMessage) {
