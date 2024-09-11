@@ -24,7 +24,15 @@
         auto-grow
         hide-details="auto"
         rounded="lg"
-      />
+      >
+        <template v-slot:append>
+          <v-icon
+            :class="['send_button', sendButtonActiveClass]"
+            icon="mdi-send-variant"
+            @click="handleSubmitClick"
+          />
+        </template>
+      </v-textarea>
     </div>
   </div>
 </template>
@@ -42,16 +50,31 @@ onMounted(
   () => (chatbotClasses.value = { chatbot_mobile: xs, chatbot_tablet: sm })
 );
 
+const isLoading = ref(false);
+
 const store = useChatbotStore();
 const messages = computed(() =>
   store.messages.filter((message) => message.role !== 'system')
 );
 const textAreaValue = ref('');
 
-const handleEnter = (e: KeyboardEvent) => {
-  if (e.key == 'Enter' && !e.shiftKey && textAreaValue.value.trim()) {
+const handleEnter = async (e: KeyboardEvent) => {
+  if (e.key == 'Enter' && !e.shiftKey) {
     e.preventDefault();
-    getChatResponse();
+    if (textAreaValue.value.trim() && !isLoading.value) {
+      isLoading.value = true;
+      await getChatResponse();
+      isLoading.value = false;
+    }
+  }
+};
+
+const handleSubmitClick = async (e: Event) => {
+  e.preventDefault();
+  if (textAreaValue.value.trim() && !isLoading.value) {
+    isLoading.value = true;
+    await getChatResponse();
+    isLoading.value = false;
   }
 };
 
@@ -148,6 +171,10 @@ function scrollToChatEnd() {
     messagesDiv.value.scrollTop = messagesDiv.value.scrollHeight;
   }
 }
+
+const sendButtonActiveClass = computed(() =>
+  textAreaValue.value.trim() && !isLoading.value ? 'send_button_active' : ''
+);
 </script>
 
 <style scoped lang="scss">
@@ -193,6 +220,19 @@ function scrollToChatEnd() {
   border-radius: 0;
 }
 
+.send_button {
+  cursor: default;
+}
+
+.send_button::before {
+  font-size: 36px;
+}
+
+.send_button_active {
+  cursor: pointer;
+  color: blue;
+}
+
 .messages {
   display: flex;
   flex-flow: column nowrap;
@@ -215,5 +255,6 @@ function scrollToChatEnd() {
   max-height: 160px;
   border-radius: 10px;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 </style>
