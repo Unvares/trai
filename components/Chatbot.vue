@@ -187,7 +187,10 @@ function scrollToChatEnd() {
 }
 
 .chatbot_mobile {
-  width: 80%;
+  width: 100%;
+  height: calc(100svh - 64px);
+  margin: auto 0 0;
+  border-radius: 0;
 }
 
 .messages {

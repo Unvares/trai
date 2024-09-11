@@ -61,8 +61,7 @@
 .about {
   position: relative;
   width: 100%;
-  min-height: 100vh;
-  max-height: 1080px;
+  min-height: 100svh;
   padding: 80px 10% 120px;
   display: flex;
   flex-flow: row nowrap;
@@ -73,13 +72,14 @@
 
   &::after {
     position: absolute;
-    content: "";
-    width: 150%;
+    content: '';
+    width: 100%;
     height: 160px;
     transform: rotate(180deg);
     top: -160px;
     left: 0;
-    background: url("assets/images/divider.svg");
+    background: url('assets/images/divider.svg') no-repeat;
+    background-size: 200% 50%;
   }
 
   .left-column {

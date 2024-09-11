@@ -14,7 +14,7 @@
     <template v-slot:append>
       <ClientOnly>
         <v-app-bar-nav-icon
-          v-if="xs"
+          v-if="smAndDown"
           @click.stop="drawer = !drawer"
         ></v-app-bar-nav-icon>
         <div v-else>
@@ -28,7 +28,7 @@
     </template>
   </v-app-bar>
   <ClientOnly>
-    <v-navigation-drawer temporary v-model="drawer" location="top">
+    <v-navigation-drawer class="menu" temporary v-model="drawer" location="top">
       <v-list class="list">
         <v-list-item @click="scrollTo('home')">Home</v-list-item>
         <v-list-item @click="scrollTo('instructions')"
@@ -41,19 +41,19 @@
 </template>
 
 <script setup lang="ts">
-import { useDisplay } from "vuetify";
-const { xs } = useDisplay();
+import { useDisplay } from 'vuetify';
+const { smAndDown } = useDisplay();
 const drawer = ref(false);
 
 const scrollTo = (id: string) => {
   const element = document.getElementById(id);
   if (element) {
-    element.scrollIntoView({ behavior: "smooth" });
+    element.scrollIntoView({ behavior: 'smooth' });
     drawer.value = false;
   }
 };
 
-import logoData from "assets/images/logo.min.json";
+import logoData from 'assets/images/logo.min.json';
 
 const logo = ref();
 const logoAnim = ref();
@@ -66,7 +66,12 @@ function handleTitleHover(): void {
 
 <style scoped lang="scss">
 .navbar {
+  width: 100svw !important; // redefined bugged mobile width
   padding: 0 10% !important; // redefines bugged padding-inline-end property from Vuetify
+}
+
+.menu {
+  width: 100svw !important; // redefines bugged mobile width
 }
 
 $logo_size: 40px;

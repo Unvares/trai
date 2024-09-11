@@ -27,7 +27,7 @@
 }
 
 html {
-  font-family: "Questrial", sans-serif;
+  font-family: 'Questrial', sans-serif;
   scroll-behavior: smooth;
 }
 
@@ -37,11 +37,17 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Avenir Light", sans-serif;
+  font-family: 'Avenir Light', sans-serif;
 }
 
 h1 {
   font-size: 72px;
+}
+
+@media (max-width: 960px) {
+  h1 {
+    font-size: 56px;
+  }
 }
 
 h2 {

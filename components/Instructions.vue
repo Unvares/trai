@@ -34,7 +34,7 @@
 .instructions {
   position: relative;
   width: 100%;
-  height: 100vh;
+  min-height: 100svh;
   max-height: 1080px;
   padding: 80px 10% 200px;
   display: flex;
@@ -48,14 +48,14 @@
   &::after {
     pointer-events: none;
     position: absolute;
-    content: "";
+    content: '';
     left: 0;
     top: 0;
     width: 100%;
   }
 
   &::before {
-    height: 40vh;
+    height: 40svh;
     max-height: 650px;
     background: linear-gradient(to top, transparent 0%, rgb(29, 53, 49) 100%);
     z-index: 1;
@@ -63,7 +63,7 @@
 
   &::after {
     height: 100%;
-    background: url("assets/images/pinebranch.png");
+    background: url('assets/images/pinebranch.png');
     z-index: 0;
     filter: opacity(0.3);
   }

@@ -21,26 +21,26 @@
 <script setup lang="ts">
 const showHint = ref(true);
 const scrollDown = () => {
-  window.scrollBy({ top: window.innerHeight, behavior: "smooth" });
+  window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
   showHint.value = false;
 };
 
 onMounted(() => {
-  window.addEventListener("scroll", () => {
+  window.addEventListener('scroll', () => {
     if (window.scrollY > 60) {
       showHint.value = false;
     }
   });
 });
 
-import { useDisplay } from "vuetify";
+import { useDisplay } from 'vuetify';
 const { xs, sm } = useDisplay();
 const scrollHintClasses = ref({});
 onMounted(
   () =>
     (scrollHintClasses.value = {
-      "scroll-hint_mobile": xs,
-      "scroll-hint_tablet": sm,
+      'scroll-hint_mobile': xs,
+      'scroll-hint_tablet': sm,
     })
 );
 
@@ -48,8 +48,8 @@ const chatHasStarted = ref(false);
 const startChat = () => {
   chatHasStarted.value = true;
 };
-import Chatbot from "./Chatbot.vue";
-import HeroContent from "./HeroContent.vue";
+import Chatbot from './Chatbot.vue';
+import HeroContent from './HeroContent.vue';
 const currentComponent = computed(() =>
   chatHasStarted.value ? Chatbot : HeroContent
 );
@@ -87,9 +87,9 @@ const currentProps = computed(() =>
   flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: center;
-  height: 100vh;
+  min-height: 100svh;
   max-height: 1080px;
-  background-image: url("assets/images/forest_and_skies.svg");
+  background-image: url('assets/images/forest_and_skies.svg');
   background-position: bottom center;
 }
 
